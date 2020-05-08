@@ -22,7 +22,7 @@ const SidebarLayout = ({ location }) => (
       }
     `}
     render={({ allMdx }) => {
-      let navItems = [];
+      const navItems = [];
 
       let finalNavItems;
 
@@ -32,8 +32,8 @@ const SidebarLayout = ({ location }) => (
 
           if (item !== undefined) {
             if (
-              item.node.fields.slug === location.pathname ||
-              config.gatsby.pathPrefix + item.node.fields.slug === location.pathname
+              item.node.fields.slug === location.pathname
+              || config.gatsby.pathPrefix + item.node.fields.slug === location.pathname
             ) {
               if (item.node.tableOfContents.items) {
                 innerItems = item.node.tableOfContents.items.map((innerItem, index) => {
@@ -59,19 +59,18 @@ const SidebarLayout = ({ location }) => (
       if (finalNavItems && finalNavItems.length) {
         return (
           <Sidebar>
-            <ul className={'rightSideBarUL'}>
-              <li className={'rightSideTitle'}>CONTENTS</li>
+            <ul className="rightSideBarUL">
+              <li className="rightSideTitle">CONTENTS</li>
               {finalNavItems}
             </ul>
           </Sidebar>
         );
-      } else {
-        return (
-          <Sidebar>
-            <ul></ul>
-          </Sidebar>
-        );
       }
+      return (
+        <Sidebar>
+          <ul />
+        </Sidebar>
+      );
     }}
   />
 );

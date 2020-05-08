@@ -8,7 +8,7 @@ import NextPrevious from '../components/NextPrevious';
 import config from '../../config';
 import { Edit, StyledHeading, StyledMainWrapper } from '../components/styles/Docs';
 
-const forcedNavOrder = config.sidebar.forcedNavOrder;
+const { forcedNavOrder } = config.sidebar;
 
 export default class MDXRuntimeTest extends Component {
   render() {
@@ -29,35 +29,32 @@ export default class MDXRuntimeTest extends Component {
 
     const navItems = allMdx.edges
       .map(({ node }) => node.fields.slug)
-      .filter(slug => slug !== '/')
+      .filter((slug) => slug !== '/')
       .sort()
       .reduce(
         (acc, cur) => {
-          if (forcedNavOrder.find(url => url === cur)) {
+          if (forcedNavOrder.find((url) => url === cur)) {
             return { ...acc, [cur]: [cur] };
           }
 
           let prefix = cur.split('/')[1];
 
           if (config.gatsby && config.gatsby.trailingSlash) {
-            prefix = prefix + '/';
+            prefix += '/';
           }
 
-          if (prefix && forcedNavOrder.find(url => url === `/${prefix}`)) {
+          if (prefix && forcedNavOrder.find((url) => url === `/${prefix}`)) {
             return { ...acc, [`/${prefix}`]: [...acc[`/${prefix}`], cur] };
-          } else {
-            return { ...acc, items: [...acc.items, cur] };
           }
+          return { ...acc, items: [...acc.items, cur] };
         },
-        { items: [] }
+        { items: [] },
       );
 
     const nav = forcedNavOrder
-      .reduce((acc, cur) => {
-        return acc.concat(navItems[cur]);
-      }, [])
+      .reduce((acc, cur) => acc.concat(navItems[cur]), [])
       .concat(navItems.items)
-      .map(slug => {
+      .map((slug) => {
         if (slug) {
           const { node } = allMdx.edges.find(({ node }) => node.fields.slug === slug);
 
@@ -66,15 +63,14 @@ export default class MDXRuntimeTest extends Component {
       });
 
     // meta tags
-    const metaTitle = mdx.frontmatter.metaTitle;
+    const { metaTitle } = mdx.frontmatter;
 
-    const metaDescription = mdx.frontmatter.metaDescription;
+    const { metaDescription } = mdx.frontmatter;
 
     let canonicalUrl = config.gatsby.siteUrl;
 
-    canonicalUrl =
-      config.gatsby.pathPrefix !== '/' ? canonicalUrl + config.gatsby.pathPrefix : canonicalUrl;
-    canonicalUrl = canonicalUrl + mdx.fields.slug;
+    canonicalUrl = config.gatsby.pathPrefix !== '/' ? canonicalUrl + config.gatsby.pathPrefix : canonicalUrl;
+    canonicalUrl += mdx.fields.slug;
 
     return (
       <Layout {...this.props}>
@@ -90,12 +86,14 @@ export default class MDXRuntimeTest extends Component {
           ) : null}
           <link rel="canonical" href={canonicalUrl} />
         </Helmet>
-        <div className={'titleWrapper'}>
+        <div className="titleWrapper">
           <StyledHeading>{mdx.fields.title}</StyledHeading>
-          <Edit className={'mobileView'}>
+          <Edit className="mobileView">
             {docsLocation && (
-              <Link className={'gitBtn'} to={`${docsLocation}/${mdx.parent.relativePath}`}>
-                <img src={gitHub} alt={'Github logo'} /> Edit on GitHub
+              <Link className="gitBtn" to={`${docsLocation}/${mdx.parent.relativePath}`}>
+                <img src={gitHub} alt="Github logo" />
+                {' '}
+                Edit on GitHub
               </Link>
             )}
           </Edit>
@@ -103,7 +101,7 @@ export default class MDXRuntimeTest extends Component {
         <StyledMainWrapper>
           <MDXRenderer>{mdx.body}</MDXRenderer>
         </StyledMainWrapper>
-        <div className={'addPaddTopBottom'}>
+        <div className="addPaddTopBottom">
           <NextPrevious mdx={mdx} nav={nav} />
         </div>
       </Layout>

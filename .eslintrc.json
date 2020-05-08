@@ -6,8 +6,9 @@
     "plugin:jsx-a11y/recommended",
     // "plugin:react-hooks/recommended",
     "airbnb"
+    // "plugin:mdx/recommended" // https://github.com/mdx-js/eslint-mdx/issues/147
   ],
-  "plugins": ["react", "import", "jsx-a11y"],
+  "plugins": ["react", "import", "jsx-a11y", "react-hooks"],
   "settings": {
     "react": {
       "version": "detect"
@@ -42,7 +43,20 @@
     ],
     "no-var": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          [
+            "builtin",
+            "external",
+            "internal"
+          ]
+        ]
+      }
+    ],
+    "react/jsx-filename-extension": "off"
   },
   "parser": "babel-eslint",
   "parserOptions": {

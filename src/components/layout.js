@@ -66,19 +66,19 @@ const Layout = ({ children, location }) => (
   <ThemeProvider location={location}>
     <MDXProvider components={mdxComponents}>
       <Wrapper>
-        <LeftSideBarWidth className={'hiddenMobile'}>
+        <LeftSideBarWidth className="hiddenMobile">
           <Sidebar location={location} />
         </LeftSideBarWidth>
         {config.sidebar.title ? (
           <div
-            className={'sidebarTitle sideBarShow'}
+            className="sidebarTitle sideBarShow"
             dangerouslySetInnerHTML={{ __html: config.sidebar.title }}
           />
         ) : null}
         <Content>
           <MaxWidth>{children}</MaxWidth>
         </Content>
-        <RightSideBarWidth className={'hiddenMobile'}>
+        <RightSideBarWidth className="hiddenMobile">
           <RightSidebar location={location} />
         </RightSideBarWidth>
       </Wrapper>

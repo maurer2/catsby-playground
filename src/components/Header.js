@@ -2,28 +2,28 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { StaticQuery, graphql } from 'gatsby';
 import GitHubButton from 'react-github-btn';
-import Link from './link';
 import Loadable from 'react-loadable';
+import Link from './link';
 
 import config from '../../config.js';
 import LoadingProvider from './mdxComponents/loading';
 import { DarkModeSwitch } from './DarkModeSwitch';
 
+import Sidebar from './sidebar';
+
 const help = require('./images/help.svg');
 
-const isSearchEnabled = config.header.search && config.header.search.enabled ? true : false;
+const isSearchEnabled = !!(config.header.search && config.header.search.enabled);
 
-let searchIndices = [];
+const searchIndices = [];
 
 if (isSearchEnabled && config.header.search.indexName) {
   searchIndices.push({
     name: `${config.header.search.indexName}`,
-    title: `Results`,
-    hitComp: `PageHit`,
+    title: 'Results',
+    hitComp: 'PageHit',
   });
 }
-
-import Sidebar from './sidebar';
 
 const LoadableComponent = Loadable({
   loader: () => import('./search/index'),
@@ -31,7 +31,7 @@ const LoadableComponent = Loadable({
 });
 
 function myFunction() {
-  var x = document.getElementById('navbar');
+  const x = document.getElementById('navbar');
 
   if (x.className === 'topnav') {
     x.className += ' responsive';
@@ -46,7 +46,7 @@ const StyledBgDiv = styled('div')`
   background-color: #f8f8f8;
   position: relative;
   display: none;
-  background: ${props => (props.isDarkThemeActive ? '#001932' : undefined)};
+  background: ${(props) => (props.isDarkThemeActive ? '#001932' : undefined)};
 
   @media (max-width: 767px) {
     display: block;
@@ -75,7 +75,7 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
         }
       }
     `}
-    render={data => {
+    render={(data) => {
       const logoImg = require('./images/logo.svg');
 
       const twitter = require('./images/twitter.svg');
@@ -86,25 +86,27 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
 
       const {
         site: {
-          siteMetadata: { headerTitle, githubUrl, helpUrl, tweetText, logo, headerLinks },
+          siteMetadata: {
+            headerTitle, githubUrl, helpUrl, tweetText, logo, headerLinks,
+          },
         },
       } = data;
 
       const finalLogoLink = logo.link !== '' ? logo.link : 'https://hasura.io/';
 
       return (
-        <div className={'navBarWrapper'}>
-          <nav className={'navBarDefault'}>
-            <div className={'navBarHeader'}>
-              <Link to={finalLogoLink} className={'navBarBrand'}>
+        <div className="navBarWrapper">
+          <nav className="navBarDefault">
+            <div className="navBarHeader">
+              <Link to={finalLogoLink} className="navBarBrand">
                 <img
-                  className={'img-responsive displayInline'}
+                  className="img-responsive displayInline"
                   src={logo.image !== '' ? logo.image : logoImg}
-                  alt={'logo'}
+                  alt="logo"
                 />
               </Link>
               <div
-                className={'headerTitle displayInline'}
+                className="headerTitle displayInline"
                 dangerouslySetInnerHTML={{ __html: headerTitle }}
               />
             </div>
@@ -112,19 +114,19 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
               <ul
                 className="socialWrapper visibleMobileView"
                 dangerouslySetInnerHTML={{ __html: config.header.social }}
-              ></ul>
+              />
             ) : null}
             {isSearchEnabled ? (
-              <div className={'searchWrapper hiddenMobile navBarUL'}>
-                <LoadableComponent collapse={true} indices={searchIndices} />
+              <div className="searchWrapper hiddenMobile navBarUL">
+                <LoadableComponent collapse indices={searchIndices} />
               </div>
             ) : null}
-            <div id="navbar" className={'topnav'}>
-              <div className={'visibleMobile'}>
+            <div id="navbar" className="topnav">
+              <div className="visibleMobile">
                 <Sidebar location={location} />
                 <hr />
               </div>
-              <ul className={'navBarUL navBarNav navBarULRight'}>
+              <ul className="navBarUL navBarNav navBarULRight">
                 {headerLinks.map((link, key) => {
                   if (link.link !== '' && link.text !== '') {
                     return (
@@ -143,7 +145,7 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
                 {helpUrl !== '' ? (
                   <li>
                     <a href={helpUrl}>
-                      <img src={help} alt={'Help icon'} />
+                      <img src={help} alt="Help icon" />
                     </a>
                   </li>
                 ) : null}
@@ -151,27 +153,27 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
                 {tweetText !== '' ? (
                   <li>
                     <a
-                      href={'https://twitter.com/intent/tweet?&text=' + tweetText}
+                      href={`https://twitter.com/intent/tweet?&text=${tweetText}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <img className={'shareIcon'} src={twitter} alt={'Twitter'} />
+                      <img className="shareIcon" src={twitter} alt="Twitter" />
                     </a>
                   </li>
                 ) : null}
                 {tweetText !== '' || githubUrl !== '' ? (
-                  <li className="divider hiddenMobile"></li>
+                  <li className="divider hiddenMobile" />
                 ) : null}
                 {config.header.social ? (
-                  <li className={'hiddenMobile'}>
+                  <li className="hiddenMobile">
                     <ul
                       className="socialWrapper"
                       dangerouslySetInnerHTML={{ __html: config.header.social }}
-                    ></ul>
+                    />
                   </li>
                 ) : null}
                 {githubUrl !== '' ? (
-                  <li className={'githubBtn'}>
+                  <li className="githubBtn">
                     <GitHubButton
                       href={githubUrl}
                       data-show-count="true"
@@ -191,22 +193,22 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
             </div>
           </nav>
           <StyledBgDiv isDarkThemeActive={isDarkThemeActive}>
-            <div className={'navBarDefault removePadd'}>
+            <div className="navBarDefault removePadd">
               <span
                 onClick={myFunction}
-                className={'navBarToggle'}
+                className="navBarToggle"
                 onKeyDown={myFunction}
                 role="button"
                 tabIndex={0}
               >
-                <span className={'iconBar'}></span>
-                <span className={'iconBar'}></span>
-                <span className={'iconBar'}></span>
+                <span className="iconBar" />
+                <span className="iconBar" />
+                <span className="iconBar" />
               </span>
             </div>
             {isSearchEnabled ? (
-              <div className={'searchWrapper'}>
-                <LoadableComponent collapse={true} indices={searchIndices} />
+              <div className="searchWrapper">
+                <LoadableComponent collapse indices={searchIndices} />
               </div>
             ) : null}
           </StyledBgDiv>

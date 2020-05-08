@@ -21,14 +21,13 @@ const pageQuery = `{
   }
 }`;
 
-const flatten = arr =>
-  arr.map(({ node: { frontmatter, fields, ...rest } }) => ({
-    ...frontmatter,
-    ...fields,
-    ...rest,
-  }));
+const flatten = (arr) => arr.map(({ node: { frontmatter, fields, ...rest } }) => ({
+  ...frontmatter,
+  ...fields,
+  ...rest,
+}));
 
-const settings = { attributesToSnippet: [`excerpt:20`] };
+const settings = { attributesToSnippet: ['excerpt:20'] };
 
 const indexName = config.header.search ? config.header.search.indexName : '';
 
