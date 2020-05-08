@@ -4,8 +4,8 @@
     "plugin:import/errors",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
-    "prettier",
-    "prettier/react"
+    // "plugin:react-hooks/recommended",
+    "airbnb"
   ],
   "plugins": ["react", "import", "jsx-a11y"],
   "settings": {
@@ -19,15 +19,30 @@
     "lines-between-class-members": ["error", "always"],
     "padding-line-between-statements": [
       "error",
-      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+      {
+        "blankLine": "always",
+        "prev": ["const", "let", "var"],
+        "next": "*"
+      },
       {
         "blankLine": "always",
         "prev": ["const", "let", "var"],
         "next": ["const", "let", "var"]
       },
-      { "blankLine": "always", "prev": "directive", "next": "*" },
-      { "blankLine": "any", "prev": "directive", "next": "directive" }
-    ]
+      {
+        "blankLine": "always",
+        "prev": "directive",
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": "directive",
+        "next": "directive"
+      }
+    ],
+    "no-var": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "parser": "babel-eslint",
   "parserOptions": {

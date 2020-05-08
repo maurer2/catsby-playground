@@ -1,44 +1,46 @@
-require("dotenv").config();
-const queries = require("./src/utils/algolia");
-const config = require("./config");
+require('dotenv').config();
+const queries = require('./src/utils/algolia');
+
+const config = require('./config');
+
 const plugins = [
   'gatsby-plugin-sitemap',
   'gatsby-plugin-sharp',
   {
-    resolve: `gatsby-plugin-layout`,
+    resolve: 'gatsby-plugin-layout',
     options: {
-        component: require.resolve(`./src/templates/docs.js`)
-    }
+      component: require.resolve('./src/templates/docs.js'),
+    },
   },
   'gatsby-plugin-emotion',
   'gatsby-plugin-react-helmet',
   {
-    resolve: "gatsby-source-filesystem",
+    resolve: 'gatsby-source-filesystem',
     options: {
-      name: "docs",
-      path: `${__dirname}/content/`
-    }
+      name: 'docs',
+      path: `${__dirname}/content/`,
+    },
   },
   {
     resolve: 'gatsby-plugin-mdx',
     options: {
       gatsbyRemarkPlugins: [
         {
-          resolve: "gatsby-remark-images",
+          resolve: 'gatsby-remark-images',
           options: {
             maxWidth: 1035,
-            sizeByPixelDensity: true
-          }
+            sizeByPixelDensity: true,
+          },
         },
         {
-          resolve: 'gatsby-remark-copy-linked-files'
-        }
+          resolve: 'gatsby-remark-copy-linked-files',
+        },
       ],
-      extensions: [".mdx", ".md"]
-    }
+      extensions: ['.mdx', '.md'],
+    },
   },
   {
-    resolve: `gatsby-plugin-gtag`,
+    resolve: 'gatsby-plugin-gtag',
     options: {
       // your google analytics tracking id
       trackingId: config.gatsby.gaTrackingId,
@@ -49,28 +51,29 @@ const plugins = [
     },
   },
 ];
+
 // check and add algolia
 if (config.header.search && config.header.search.enabled && config.header.search.algoliaAppId && config.header.search.algoliaAdminKey) {
   plugins.push({
-    resolve: `gatsby-plugin-algolia`,
+    resolve: 'gatsby-plugin-algolia',
     options: {
       appId: config.header.search.algoliaAppId, // algolia application id
       apiKey: config.header.search.algoliaAdminKey, // algolia admin key to index
       queries,
       chunkSize: 10000, // default: 1000
-    }}
-  )
+    },
+  });
 }
 // check and add pwa functionality
 if (config.pwa && config.pwa.enabled && config.pwa.manifest) {
   plugins.push({
-      resolve: `gatsby-plugin-manifest`,
-      options: {...config.pwa.manifest},
+    resolve: 'gatsby-plugin-manifest',
+    options: { ...config.pwa.manifest },
   });
   plugins.push({
     resolve: 'gatsby-plugin-offline',
     options: {
-      appendScript: require.resolve(`./src/custom-sw-code.js`),
+      appendScript: require.resolve('./src/custom-sw-code.js'),
     },
   });
 } else {
@@ -98,5 +101,5 @@ module.exports = {
     headerLinks: config.header.links,
     siteUrl: config.gatsby.siteUrl,
   },
-  plugins: plugins
+  plugins,
 };
