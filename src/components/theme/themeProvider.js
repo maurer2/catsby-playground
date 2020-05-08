@@ -35,7 +35,7 @@ class ThemeProvider extends React.Component {
     const currentActiveTheme = isDarkThemeActive ? darkTheme : lightTheme;
 
     return (
-      <div>
+      <>
         <Global styles={baseStyles} />
         <Header
           location={location}
@@ -43,7 +43,7 @@ class ThemeProvider extends React.Component {
           toggleActiveTheme={this.toggleActiveTheme}
         />
         <EmotionThemeProvider theme={currentActiveTheme}>{children}</EmotionThemeProvider>
-      </div>
+      </>
     );
   }
 }
